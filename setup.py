@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-                'talker = py_pubsub.publisher_member_function:main',
+                'talker = base_motor.publisher_member_function:main',
+                'listener = base_motor.subscriber_member_function:main',
         ],
-    },
+},
 )

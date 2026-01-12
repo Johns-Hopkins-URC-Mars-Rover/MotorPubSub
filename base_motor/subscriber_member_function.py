@@ -18,34 +18,32 @@ from rclpy.node import Node
 from std_msgs.msg import Int8
 
 
-class Base_Publisher(Node):
+class Pi_Sub(Node):
 
     def __init__(self):
-        super().__init__('base_motor_publisher')
-        self.publisher_ = self.create_publisher(Int8, 'base_motors', 10)
-        timer_period = 0.25  # seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.i = 0
+        super().__init__('rasp_subscriber')
+        self.subscription = self.create_subscription(
+            Int8,
+            'base_motors',
+            self.listener_callback,
+            10)
+        self.subscription  # prevent unused variable warning
 
-    def timer_callback(self):
-        msg = Int8()
-        msg.data = self.i
-        self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%i"' % msg.data)
-        self.i += 1
+    def listener_callback(self, msg):
+        self.get_logger().info('I heard: "%i"' % msg.data)
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    base_pub = Base_Publisher()
+    rasp_subscriber = Pi_Sub()
 
-    rclpy.spin(base_pub)
+    rclpy.spin(rasp_subscriber)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    base_pub.destroy_node()
+    rasp_subscriber.destroy_node()
     rclpy.shutdown()
 
 
