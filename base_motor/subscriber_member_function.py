@@ -17,6 +17,7 @@ from rclpy.node import Node
 
 from std_msgs.msg import Int8
 
+from AK_motor_wrapper import set_speed
 
 class Pi_Sub(Node):
 
@@ -30,7 +31,9 @@ class Pi_Sub(Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
+        speed = msg.data
         self.get_logger().info('I heard: "%i"' % msg.data)
+        set_speed(self.i)
 
 
 def main(args=None):
