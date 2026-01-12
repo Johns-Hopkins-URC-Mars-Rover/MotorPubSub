@@ -21,5 +21,6 @@ On base device, run
 ros2 run base_motor talker
 ```
 On server, run
-``` ros2 run base_motor listener
+``` 
+ros2 run base_motor listener
 ```
