@@ -21,27 +21,39 @@ from motor_wrapper_ak.AKMotorControl import AK7010MotorControl
 import time
 import PublisherSubscriber.subscriber as sub
 
-def recieve_data(msg):
-    print("starting bus")
-    bus = can.ThreadSafeBus(interface="socketcan", channel="can0", bitrate=1000000)
-    motors = [i for i in range(1, 7)]
-    # push recieved speed to motors
-    motor_obj = [AK7010MotorControl.Motor(i, bus) for i in motors]
-    print("starting motors")
-    for i in motor_obj:
-        i.start()
-    print("setting speed")
-    for i in motor_obj:
-        i.set_speed(msg["speed"])
-        print('set speed to')
-        # i.set_spd_pos(500, 10, 1)
-        time.sleep(2)
+bus = can.ThreadSafeBus(interface="socketcan", channel="can0", bitrate=1000000)
+
+motors_l_ids = [1, 2, 3]
+motors_r_ids = [4, 5, 6]
+
+motors_r = [AK7010MotorControl.Motor(i, bus) for i in motors_r_ids]
+motors_l = [AK7010MotorControl.Motor(i, bus) for i in motors_l_ids]
+
+motors_all = motors_l + motors_r
+
+def receive_data(data):
+    if data.get("speed") is None or data.get("speed") == 0:
+        for i in range(0, 3):
+            motors_l[i].stop()
+            motors_r[i].stop()
+    elif data.get("heading") == 0:
+        for i in range(0, 3):
+            motors_l[i].set_speed(data.get("speed"))
+            motors_r[i].set_speed(-data.get("speed"))
+    elif data.get("heading") < 0:
+        for i in range(0, 3):
+            motors_l[i].set_speed(data.get("speed"))
+            motors_r[i].set_speed(data.get("speed"))
+    elif data.get("heading") > 0:
+        for i in range(0, 3):
+            motors_l[i].set_speed(-data.get("speed"))
+            motors_r[i].set_speed(-data.get("speed"))
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    subscriber = sub.Subscriber('rasp_subscriber', "base_motors", recieve_data)
+    subscriber = sub.Subscriber('rasp_subscriber', "base_motors", receive_data)
     rclpy.spin(subscriber)
 
     # Destroy the node explicitly
