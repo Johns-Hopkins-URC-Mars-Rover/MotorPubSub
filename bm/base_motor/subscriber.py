@@ -17,7 +17,7 @@ from rclpy.node import Node
 
 from std_msgs.msg import String
 import can 
-from AK_motor_wrapper.motor import Motor
+from motor_wrapper_ak.motor import Motor
 
 class Subscriber(Node):
 
