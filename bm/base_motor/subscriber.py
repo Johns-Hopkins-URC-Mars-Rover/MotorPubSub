@@ -17,9 +17,9 @@ from rclpy.node import Node
 
 from std_msgs.msg import String
 import can 
-from motor_wrapper_ak.AKMotorControl import AK7010MotorControl
+from base_motor.AKMotorControl import AK7010MotorControl
 import time
-import PublisherSubscriber.subscriber as sub
+import base_motor.PublisherSubscriber.subscriber as sub
 
 bus = can.ThreadSafeBus(interface="socketcan", channel="can0", bitrate=1000000)
 

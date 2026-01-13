@@ -1,9 +1,9 @@
 [submodule "motor_wrapper_ak/AKMotorControl"]
 	path = motor_wrapper_ak/AKMotorControl
 	url = https://github.com/Johns-Hopkins-URC-Mars-Rover/AKMotorControl.git
-[submodule "bm/base_motor/--force"]
-	path = bm/base_motor/--force
-	url = https://github.com/Johns-Hopkins-URC-Mars-Rover/PublisherSubscriber.git
 [submodule "bm/base_motor/PublisherSubscriber"]
 	path = bm/base_motor/PublisherSubscriber
 	url = https://github.com/Johns-Hopkins-URC-Mars-Rover/PublisherSubscriber.git
+[submodule "bm/base_motor/AKMotorControl"]
+	path = bm/base_motor/AKMotorControl
+	url = https://github.com/Johns-Hopkins-URC-Mars-Rover/AKMotorControl.git
