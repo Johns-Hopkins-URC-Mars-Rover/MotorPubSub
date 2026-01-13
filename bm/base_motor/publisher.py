@@ -31,7 +31,7 @@ def data_func() -> str:
 
 def main(args=None):
     rclpy.init(args=args)
-    publisher = pub.Publisher("base_publisher", "base_motors", data_func)
+    publisher = pub.Publisher("base_publisher", "base_motors", data_func, .5)
 
     rclpy.spin(publisher)
 
