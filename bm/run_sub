@@ -1,0 +1,5 @@
+colcon build --packages-select base_motor
+source install/setup.bash
+
+echo "Running subscriber"
+ros2 run base_motor listener
