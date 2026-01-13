@@ -18,23 +18,24 @@ import threading
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-import PublisherSubscriber.publisher as pub
+import base_motor.PublisherSubscriber.publisher as pub
 
-def data_func() -> dict:
+def data_func() -> str:
     # read the joystick somehow
     data = {
         "speed": 50,
         "heading": 0
     }
 
-    return data
+    return json.dumps(data)
 
 def main(args=None):
+    rclpy.init(args=args)
     publisher = pub.Publisher("base_publisher", "base_motors", data_func)
-    for i in range(100):
-        publisher.run()
-    #when its over
-    publisher.stop()
+
+    rclpy.spin(publisher)
+
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

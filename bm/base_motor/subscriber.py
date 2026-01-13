@@ -19,6 +19,7 @@ from std_msgs.msg import String
 import can 
 from base_motor.AKMotorControl import AK7010MotorControl
 import time
+import json
 import base_motor.PublisherSubscriber.subscriber as sub
 
 bus = can.ThreadSafeBus(interface="socketcan", channel="can0", bitrate=1000000)
@@ -32,6 +33,7 @@ motors_l = [AK7010MotorControl.Motor(i, bus) for i in motors_l_ids]
 motors_all = motors_l + motors_r
 
 def receive_data(data):
+    data = json.loads(data)
     if data.get("speed") is None or data.get("speed") == 0:
         for i in range(0, 3):
             motors_l[i].stop()
