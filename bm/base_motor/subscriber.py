@@ -39,12 +39,12 @@ def receive_data(data):
     speed_r = -(data.get("speed") - data.get("heading"))
 
     for i in range(3):
-        if speed_l <= 1:
+        if abs(speed_l) <= 1:
             motors_l[i].stop()
         else:
             motors_l[i].set_speed(speed_l)
 
-        if speed_r <= 1:
+        if abs(speed_r) <= 1:
             motors_r[i].stop()
         else:
             motors_r[i].set_speed(speed_r)
