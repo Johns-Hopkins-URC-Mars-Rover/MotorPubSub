@@ -33,7 +33,7 @@ motors_l = [AK7010MotorControl.Motor(i, bus) for i in motors_l_ids]
 motors_all = motors_l + motors_r
 
 def receive_data(data):
-    data = json.loads(data)
+    data = json.loads(data.data)
 
     speed_l = data.get("speed") + data.get("heading")
     speed_r = -(data.get("speed") - data.get("heading"))
