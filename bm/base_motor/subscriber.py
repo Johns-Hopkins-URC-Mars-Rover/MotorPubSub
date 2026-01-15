@@ -34,22 +34,37 @@ motors_all = motors_l + motors_r
 
 def receive_data(data):
     data = json.loads(data)
-    if data.get("speed") is None or data.get("speed") == 0:
-        for i in range(0, 3):
+
+    speed_l = data.get("speed") + data.get("heading")
+    speed_r = -(data.get("speed") - data.get("heading"))
+
+    for i in range(3):
+        if speed_l <= 1:
             motors_l[i].stop()
+        else:
+            motors_l[i].set_speed(speed_l)
+
+        if speed_r <= 1:
             motors_r[i].stop()
-    elif data.get("heading") == 0:
-        for i in range(0, 3):
-            motors_l[i].set_speed(data.get("speed"))
-            motors_r[i].set_speed(-data.get("speed"))
-    elif data.get("heading") < 0:
-        for i in range(0, 3):
-            motors_l[i].set_speed(data.get("speed"))
-            motors_r[i].set_speed(data.get("speed"))
-    elif data.get("heading") > 0:
-        for i in range(0, 3):
-            motors_l[i].set_speed(-data.get("speed"))
-            motors_r[i].set_speed(-data.get("speed"))
+        else:
+            motors_r[i].set_speed(speed_r)
+
+    # if data.get("speed") is None or data.get("speed") == 0:
+    #     for i in range(0, 3):
+    #         motors_l[i].stop()
+    #         motors_r[i].stop()
+    # elif data.get("heading") == 0:
+    #     for i in range(0, 3):
+    #         motors_l[i].set_speed(data.get("speed"))
+    #         motors_r[i].set_speed(-data.get("speed"))
+    # elif data.get("heading") < 0:
+    #     for i in range(0, 3):
+    #         motors_l[i].set_speed(data.get("speed"))
+    #         motors_r[i].set_speed(data.get("speed"))
+    # elif data.get("heading") > 0:
+    #     for i in range(0, 3):
+    #         motors_l[i].set_speed(-data.get("speed"))
+    #         motors_r[i].set_speed(-data.get("speed"))
 
 
 def main(args=None):

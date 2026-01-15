@@ -19,18 +19,24 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import base_motor.PublisherSubscriber.publisher as pub
+from xbox360controller import Xbox360Controller
+
+controller = Xbox360Controller(0, 0.1)
 
 def data_func() -> str:
     # read the joystick somehow
+    speed = controller.axis_l.y * 50
+    turn = controller.axis_r.x * 50
     data = {
-        "speed": 50,
-        "heading": 0
+        "speed": speed,
+        "heading": turn
     }
 
     return json.dumps(data)
 
 def main(args=None):
     rclpy.init(args=args)
+
     publisher = pub.Publisher("base_publisher", "base_motors", data_func, .5)
 
     rclpy.spin(publisher)
