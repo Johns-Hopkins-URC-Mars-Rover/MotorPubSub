@@ -25,7 +25,7 @@ controller = Xbox360Controller(0, 0.1)
 
 def data_func() -> str:
     # read the joystick somehow
-    speed = controller.axis_l.y * 50
+    speed = -controller.axis_l.y * 50
     turn = controller.axis_r.x * 50
     data = {
         "speed": speed,
